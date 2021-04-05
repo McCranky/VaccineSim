@@ -1,0 +1,48 @@
+﻿@page "/settings"
+@inject VaccineSimulationService Simulation
+
+<h3>Settings</h3>
+
+<EditForm Model="Simulation.VacSettings">
+    <label for="registerWorkers">Registration workers: </label>
+    <InputNumber id="registerWorkers" @bind-Value="Simulation.VacSettings.RegistrationWorkers" />
+    <label for="examinationWorkers">Examination workers: </label>
+    <InputNumber id="examinationWorkers" @bind-Value="Simulation.VacSettings.ExaminationWorkers" />
+    <label for="vaccinationWorkers">Vaccination workers: </label>
+    <InputNumber id="vaccinationWorkers" @bind-Value="Simulation.VacSettings.VaccinationWorkers" />
+
+    <br/>
+    
+    <label for="low">Not comming low: </label>
+    <InputNumber id="low" @bind-Value="Simulation.VacSettings.NotCommingLowerBoundry" />
+    <label for="high">Not comming high: </label>
+    <InputNumber id="high" @bind-Value="Simulation.VacSettings.NotCommingHigherBoundry" />
+
+    <br/>
+    <label for="patients">Patients: </label>
+    <InputNumber id="patients" @bind-Value="Simulation.VacSettings.Patients" />
+    
+    <br/>
+    <label for="experiment">Enable experiment: </label>
+    <InputCheckbox id="experiment" @bind-Value="Simulation.VacSettings.DoctorsExperimentEnabled" />
+    <label for="min">Minimum doctors: </label>
+    <InputNumber id="min" @bind-Value="Simulation.VacSettings.DoctorsMin" />
+    <label for="max">Maximum doctors: </label>
+    <InputNumber id="max" @bind-Value="Simulation.VacSettings.DoctorsMax" />
+    <label for="exp">Repliactions per experiment: </label>
+    <InputNumber id="exp" @bind-Value="Simulation.VacSettings.ExperimentReplications" />
+</EditForm>
+
+<EditForm Model="Simulation.MCSettings">
+    <label for="registerWorkers">Replications: </label>
+    <InputNumber id="registerWorkers" @bind-Value="Simulation.MCSettings.Replications" />
+</EditForm>
+
+<button class="btn btn-primary" @onclick="SaveChanges">Save</button>
+
+@code {
+    private void SaveChanges()
+    {
+        Simulation.ApplySettings();
+    }
+}

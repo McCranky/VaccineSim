@@ -1,0 +1,11 @@
+﻿@page "/experiment" 
+<h3>Experiment</h3>
+
+<button class="btn btn-dark" @onclick="StartExperiment">Start</button>
+
+<div class="m-3">
+    <PlotlyChart @bind-Config="config"
+                 @bind-Layout="layout"
+                 @bind-Data="data"
+                 @ref="chart" />
+</div>

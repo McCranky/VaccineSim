@@ -1,0 +1,74 @@
+﻿@page "/replications"
+@using VaccineSim.Utils 
+
+<h3>Replications</h3>
+<p>Replication @_afterReplicationValues.Replication</p>
+
+<div class="card-group">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Registration</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average workload: <span>@_afterReplicationValues.RegistrationWorkload.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average length: <span>@_afterReplicationValues.RegistrationAverageLength.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average waiting: <span>@TimeFormatter.SecondsToTime(_afterReplicationValues.RegistrationAverageTime)</span></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Examination</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average workload: <span>@_afterReplicationValues.ExaminationWorkload.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average length: <span>@_afterReplicationValues.ExaminationAverageLength.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average waiting: <span>@TimeFormatter.SecondsToTime(_afterReplicationValues.ExaminationAverageTime)</span></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Vaccination</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average workload: <span>@_afterReplicationValues.VaccinationWorkload.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average length: <span>@_afterReplicationValues.VaccinationAverageLength.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average waiting: <span>@TimeFormatter.SecondsToTime(_afterReplicationValues.VaccinationAverageTime)</span></li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Waiting room</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">Average length: <span>@_afterReplicationValues.WaitingRoomLengthStats.Average.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Lower: <span>@_afterReplicationValues.WaitingRoomLengthStats.LowerInterval.ToString("0.####")</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Higher: <span>@_afterReplicationValues.WaitingRoomLengthStats.HigherInterval.ToString("0.####")</span></li>
+        </ul>
+    </div>
+</div>
+
+<div class="card w-25">
+    <div class="card-body">
+        <h5 class="card-title">Others</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center">Average missing patients: <span>@_afterReplicationValues.MissingPatients.ToString("0.####")</span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">Average overtime: <span>@TimeFormatter.SecondsToTime(_afterReplicationValues.Overtime)</span></li>
+    </ul>
+</div>
+
+<div class="btn-group" role="group">
+    <button class="btn btn-primary" @onclick="@StartSimulation">Start</button>
+    @if (_simulationService.ESSettings.IsPause)
+    {
+        <button class="btn btn-success" @onclick="@PauseSimulation">Resume</button>
+    }
+    else
+    {
+        <button class="btn btn-warning" @onclick="@PauseSimulation">Pause</button>
+    }
+    <button class="btn btn-danger" @onclick="@StopSimulation" disabled="@(_simulationService.MCSettings.CancellationToken)">Stop</button>
+</div>
